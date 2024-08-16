@@ -17,10 +17,4 @@ EXPOSE 80
 ENV NAME Dev
 
 # Run the Python script when the container launches
-CMD ["python", "DataProcessorLambda.py"]
-
-# Run the Python script when the container launches
-CMD ["python", "DataSaverLambda.py"]
-
-# Run the Python script when the container launches
 CMD ["python", "DataSimulatorLambda.py"]

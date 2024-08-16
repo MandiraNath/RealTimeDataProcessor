@@ -33,7 +33,7 @@ resource "aws_lambda_function" "datasaver_lambda" {
   runtime          = "python3.12"
 }
 
-resource "aws_lambda_function" "datasimulator_lambda_lambda" {
+resource "aws_lambda_function" "datasimulator_lambda" {
   function_name = "DataSimulatorLambda"
 
   # The bucket name as created earlier with "aws s3api create-bucket"
@@ -51,15 +51,23 @@ resource "aws_lambda_function" "datasimulator_lambda_lambda" {
   runtime          = "python3.12"
 }
 
-data "aws_lambda_function" "DataProcessorLambda" {
+data "aws_lambda_function" "dataprocessor_lambda" {
   function_name = "DataProcessorLambda"
 }
 
-data "aws_lambda_function" "DataSaverLambda" {
+data "aws_lambda_function" "datasaver_lambda" {
   function_name = "DataSaverLambda"
 }
 
-data "aws_lambda_function" "DataSimulatorLambda" {
+data "aws_lambda_function" "datasimulator_lambda" {
   function_name = "DataSimulatorLambda"
+}
+
+
+resource "aws_s3_bucket_acl" "lambda_bucket_acl" {
+  depends_on = [aws_s3_bucket_ownership_controls.lambda_bucket_ownership_controls]
+
+  bucket = "${aws_s3_bucket.lambda-bucket.id}"
+  acl = "private"
 }
 

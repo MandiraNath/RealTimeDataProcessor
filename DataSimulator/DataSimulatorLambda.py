@@ -7,7 +7,7 @@ import random
 kinesis_client = boto3.client('kinesis', region_name='us-east-1')
 
 # Constants
-STREAM_NAME = 'your_kinesis_stream_name'  # Replace with your Kinesis stream name
+STREAM_NAME = 'realtime-data-stream'  # Replace with your Kinesis stream name
 SAMPLING_RATE = 0.1  # 100 ms
 
 def generate_frequency_data():

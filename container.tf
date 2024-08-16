@@ -14,7 +14,7 @@ resource "aws_ecs_task_definition" "task" {
   container_definitions = jsonencode([
     {
       name      = "frequency-data-simulator",
-      image     = "<your_docker_image>",  # Replace with your Docker image name
+      image     = "datasimulatorimage",  # Replace with your Docker image name
       essential = true,
       logConfiguration = {
         logDriver = "awslogs"

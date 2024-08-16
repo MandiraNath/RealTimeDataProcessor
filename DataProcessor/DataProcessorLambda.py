@@ -22,13 +22,15 @@ def lambda_handler(event, context):
     # Process incoming Kinesis records
     for record in event['Records']:
         # Decode Kinesis data
-        payload = json.loads(record['kinesis']['data'])
+        payload = json.loads(record['kinesis']['realtime-data-stream'])
         
         # Convert the record to Timestream format
         timestream_record = {
             'Dimensions': [
-                {'Name': 'dimension_name_1', 'Value': payload['dimension_value_1']},
-                {'Name': 'dimension_name_2', 'Value': payload['dimension_value_2']}
+                {'Name': 'stepnumber', 'Value': payload['stepnumber']},
+                {'Name': 'starttime', 'Value': payload['starttime']},
+                {'Name': 'duration', 'Value': payload['duration']},
+                {'Name': 'frequency', 'Value': payload['frequency']}
             ],
             'MeasureName': 'measure_name',
             'MeasureValue': str(payload['measure_value']),
