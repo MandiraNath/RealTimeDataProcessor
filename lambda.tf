@@ -51,17 +51,6 @@ resource "aws_lambda_function" "datasimulator_lambda" {
   runtime          = "python3.12"
 }
 
-data "aws_lambda_function" "dataprocessor_lambda" {
-  function_name = "DataProcessorLambda"
-}
-
-data "aws_lambda_function" "datasaver_lambda" {
-  function_name = "DataSaverLambda"
-}
-
-data "aws_lambda_function" "datasimulator_lambda" {
-  function_name = "DataSimulatorLambda"
-}
 
 
 resource "aws_s3_bucket_acl" "lambda_bucket_acl" {

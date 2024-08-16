@@ -14,7 +14,8 @@ resource "aws_ecs_task_definition" "task" {
   container_definitions = jsonencode([
     {
       name      = "frequency-data-simulator",
-      image     = "datasimulatorimage",  # Replace with your Docker image name
+      #  Docker image name
+      image     = "datasimulatorimage",  
       essential = true,
       logConfiguration = {
         logDriver = "awslogs"
@@ -26,7 +27,7 @@ resource "aws_ecs_task_definition" "task" {
       },
       environment = [
         {
-          name  = "STREAM_NAME"
+          name  = "frequency-data-stream"
           value = aws_kinesis_stream.kinesis_stream.name
         }
       ]

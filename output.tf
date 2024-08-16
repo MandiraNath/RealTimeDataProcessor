@@ -15,3 +15,18 @@ output "dataprocessor_lambda_bucket_object" {
 }
 
 
+output "kinesis_stream"{
+  value       = aws_kinesis_stream.kinesis_stream.arn
+  description = "ARN for the created kinesis stream"
+}
+
+
+output "shard_count" {
+  description = "Number of shards provisioned."
+  value       = try(aws_kinesis_stream.kinesis_stream.shard_count, null)
+}
+
+output "stream_arn" {
+  description = "ARN of the Kinesis stream."
+  value       = join("", aws_kinesis_stream.kinesis_stream.*.arn)
+}
