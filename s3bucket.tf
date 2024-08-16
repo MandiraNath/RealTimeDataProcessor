@@ -1,0 +1,54 @@
+
+# this bucket will keep real time data in parquet format
+resource "aws_s3_bucket" "data_bucket" {
+  bucket  = "realtime-data-save-bucket"
+  tags    = {
+	Name          = "realtime-data-save-bucket"
+	Environment    = "Dev"
+  }
+}
+
+# this bucket will keep zip files needed for Lambda
+resource "aws_s3_bucket" "lambda-bucket" {
+  bucket = "terraform-serverless-lambdacode"
+
+  tags = {
+    Name        = "terraform-serverless-lambdacode"
+    Environment = "Dev"
+  }
+}
+resource "aws_s3_bucket_ownership_controls" "lambda_bucket_ownership_controls" {
+  bucket = "${aws_s3_bucket.lambda-bucket.id}"
+
+  rule {
+    object_ownership = "BucketOwnerPreferred"
+  }
+}
+
+resource "aws_s3_bucket_acl" "lambda_bucket_acl" {
+  depends_on = [aws_s3_bucket_ownership_controls.lambda_bucket_ownership_controls]
+
+  bucket = "${aws_s3_bucket.lambda-bucket.id}"
+  acl = "private"
+}
+
+# upload zip to s3 and then update lambda function from s3
+resource "aws_s3_bucket_object" "dataprocessor_file_upload" {
+  bucket = "${aws_s3_bucket.lambda-bucket.id}"
+  key    = "DataProcessor/dataprocessor_lambda.zip"
+  source = "${data.archive_file.dataprocessor_lambda_handler_archive_file.output_path}" 
+}
+
+# upload zip to s3 and then update lambda function from s3
+resource "aws_s3_bucket_object" "datasaver_file_upload" {
+  bucket = "${aws_s3_bucket.lambda-bucket.id}"
+  key    = "DataProcessor/datasaver_lambda.zip"
+  source = "${data.archive_file.datasaver_lambda_handler_archive_file.output_path}" 
+}
+
+# upload zip to s3 and then update lambda function from s3
+resource "aws_s3_bucket_object" "datasimulator_file_upload" {
+  bucket = "${aws_s3_bucket.lambda-bucket.id}"
+  key    = "DataProcessor/datasimulator_lambda.zip"
+  source = "${data.archive_file.datasimulator_lambda_handler_archive_file.output_path}" 
+}
